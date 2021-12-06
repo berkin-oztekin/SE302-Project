@@ -1,10 +1,8 @@
 public class main {
    public static void main(String [] args){
-       System.out.println("Let's Gooooooooo");
-       System.out.println("Let's Gooooooooo");
-       System.out.println("Let's Gooooooooo");
-       System.out.println("Let's Gooooooooo");
-       System.out.println("Let's Gooooooooo");
-       System.out.println("Let's Gooooooooo");
+      CalculatorWiew calculatorWiew = new CalculatorWiew();
+      CalculatorModel calculatorModel = new CalculatorModel();
+      CalculationController calculationController = new CalculationController(calculatorWiew , calculatorModel);
+      calculatorWiew.setVisible(true);
    }
 }
