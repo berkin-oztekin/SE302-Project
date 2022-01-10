@@ -9,23 +9,23 @@ public class Person {
     private String age;
     private boolean isAlive;
     private Gender gender;
-    private Parent parent;
+
 
     //relative type eklencek
 
-    //program ilk açıldığında ana ekrandan sonra kullanan kişinin bilgileri istenecek ondan sonra ona gre relationlar alınacak ???
+    //program ilk açıldığında ana ekrandan sonra kullanan kişinin bilgileri istenecek ondan sonra ona göre relationlar alınacak ???
 
     // relation type sıkıntı çöz
 
-    public Person(String name, String surName, String age, LocalDate birthdate, boolean isAlive, Gender gender, Parent parent) {
+    public Person(String name, String surName, String age, LocalDate birthdate, boolean isAlive, Gender gender) {
         this.name = name;
         this.surName = surName;
         this.age = age;
         this.birthdate = birthdate;
         this.isAlive = isAlive;
         this.gender = gender;
-        this.parent = parent;
     }
+
 
     public String getAge() {
         return age;
@@ -75,15 +75,9 @@ public class Person {
         this.gender = gender;
     }
 
-    public Parent getParent() {
-        return parent;
-    }
 
-    public void setParent(Parent parent) {
-        this.parent = parent;
-    }
 
     public void showInfo(Person person) {
-        System.out.println(person.getName()+person.getSurName()+person.getAge()+person.getGender()+person.getBirthdate()+person.isAlive()+person.getParent());
+        person.getName();
     }
 }

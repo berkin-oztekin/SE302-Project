@@ -11,16 +11,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.jar.JarOutputStream;
 
-public class AddMemberPageController {
+public class AddRelationalMemberPageController {
 
     private Stage stage;
     private Scene scene;
-    private Parent root;
     private Person person;
     private Gender gender;
     private String nameText;
@@ -33,7 +31,7 @@ public class AddMemberPageController {
     private boolean isAliveNo;
     private LocalDate deathDateText;
 
-    public AddMemberPageController() {
+    public AddRelationalMemberPageController() {
         System.out.println("first");
     }
 
@@ -110,6 +108,10 @@ public class AddMemberPageController {
         this.deathDateText = deathDateText;
     }
 
+
+    @FXML
+    private ComboBox<String> relation;
+
     @FXML
     private TextField name;
 
@@ -144,9 +146,20 @@ public class AddMemberPageController {
     private Button addButton;
 
 
+    public void setRelation() {
+        relation.getItems().add(0,"Mother");
+        relation.getItems().add(1,"Father");
+        relation.getItems().add(2,"Child");
+        relation.getItems().add(3,"Partner");
+        relation.getItems().add(4,"Sibling");
+        relation.getItems().add(5,"Me");
+    }
+
+
     @FXML
     public void initialize() {
         System.out.println("second");
+        setRelation();
         deathDate.setDisable(true);
 
         genderMale.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -199,7 +212,7 @@ public class AddMemberPageController {
 
     public void cancelMainPage(ActionEvent actionEvent) {
         try{
-            root = FXMLLoader.load(getClass().getResource("mainpage.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("mainpage.fxml"));
             stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -210,9 +223,7 @@ public class AddMemberPageController {
         }
     }
 
-
-
-    public void addMember(ActionEvent actionEvent) throws IOException{
+    public void addMember(ActionEvent actionEvent) {
         Dialog dialog = new Dialog();
         dialog.setTitle("Alert!");
         ButtonType button = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
@@ -243,31 +254,19 @@ public class AddMemberPageController {
         }
 
         if (person == null) {
-            //person = new Person(nameText, surnameText, ageText, birthDateText, true ,gender );
-            //person.showInfo(person);
+            person = new Person(nameText, surnameText, ageText, birthDateText, true ,gender );
+            person.showInfo(person);
             System.out.println("person ifine girdik");
         } else {
             System.out.println("something went wrong!");
         }
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("mainpage.fxml"));
-        root = loader.load();
-
-        Controller controller = loader.getController();
-        controller.changeScreen(name.getText(),surnameText,ageText,isGenderMale,birthDateText,isAliveYes);
-
-        //root = FXMLLoader.load(getClass().getResource("mainpage.fxml"));
-        stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-
 
 
 
 
         System.out.println("gender male : " + genderMale.isSelected());
 
+        System.out.println("relation: " + relation.getValue());
 
         System.out.println("Name:" + nameText + "-surname:" + surnameText + "-age:" + ageText + "-isGenderMale:" + isGenderMale + "-isGenderFemale:" + isGenderFemale + "-birthdate" + birthDateText);
     }
