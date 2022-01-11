@@ -11,9 +11,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
+import java.io.File;
+import java.net.URL;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.ResourceBundle;
 
 
 public class Controller {
@@ -24,7 +30,7 @@ public class Controller {
 
     @FXML
     private VBox vBox;
-
+    FileChooser fileChooser=new FileChooser();
     @FXML
     private Label nameLabel;
 
@@ -91,8 +97,8 @@ public class Controller {
     }
 
     @FXML
-    public void initialize(){
-
+    public void initialize(URL location, ResourceBundle resources){
+    fileChooser.setInitialDirectory(new File("C:\\temp"));//??
 
     }
 
@@ -126,5 +132,45 @@ public class Controller {
     }
 
     public void addRelative(ActionEvent actionEvent) {
-    }
 }
+    public void saveItem(ActionEvent actionEvent) {
+        Window stage = vBox.getScene().getWindow();//@FXML kısmından alındı:?? VBox
+        fileChooser.setTitle("Save Dialog");
+        fileChooser.setInitialFileName("mysave");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("text file", "*.txt"),
+                new FileChooser.ExtensionFilter("pdf", "*.pdf"));
+
+
+        try {
+            File file = fileChooser.showSaveDialog(stage);
+            fileChooser.setInitialDirectory(file.getParentFile());//save the chosen directory
+            //Todo Save
+        } catch (Exception ex) {
+
+        }
+    }
+
+    public void loadItem(ActionEvent actionEvent) {
+        Window stage = vBox.getScene().getWindow();//@FXML kısmından alındı:?? VBox
+        fileChooser.setTitle("Load Dialog");
+
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("text file", "*.txt","*.docx","*.doc"),
+                new FileChooser.ExtensionFilter("pdf", "*.pdf"),
+                new FileChooser.ExtensionFilter("images", "*.jpg","*.png","*.gif"));
+
+        try {
+            File file = fileChooser.showOpenDialog(stage);
+            List<File> files=fileChooser.showOpenMultipleDialog(stage);
+            fileChooser.setInitialDirectory(file.getParentFile());
+            // Stage stage=(Stage)vBox.getScene().getWindow();
+           // if(file!=null){
+               // Desktop desktop=Desktop.getDesktop();
+                //desktop.open(file);
+          //  }
+            //Todo Save
+        } catch (Exception ex) {
+
+        }
+
+    }
+    }
