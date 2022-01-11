@@ -23,4 +23,4 @@ public class Main extends Application {
         launch(args);
     }
 }
-// MAİN OLDU
+// accordion bağlandı fakat page ref hatası var
