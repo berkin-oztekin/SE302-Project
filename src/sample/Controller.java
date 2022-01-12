@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
@@ -144,9 +146,13 @@ public class Controller {
         try {
             File file = fileChooser.showSaveDialog(stage);
             fileChooser.setInitialDirectory(file.getParentFile());//save the chosen directory
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            //oos.writeObject();
+
             //Todo Save
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         }
     }
 
