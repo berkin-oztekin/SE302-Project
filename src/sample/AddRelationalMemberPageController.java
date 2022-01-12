@@ -22,19 +22,13 @@ public class AddRelationalMemberPageController {
     private Person person;
     private Gender gender;
     private String nameText;
-    private String surnameText;
     private String ageText;
     private boolean isGenderMale;
     private boolean isGenderFemale;
-    private LocalDate birthDateText;
-    private boolean isAliveYes;
-    private boolean isAliveNo;
-    private LocalDate deathDateText;
 
     public AddRelationalMemberPageController() {
         System.out.println("first");
     }
-
 
     public String getNameText() {
         return nameText;
@@ -42,14 +36,6 @@ public class AddRelationalMemberPageController {
 
     public void setNameText(String nameText) {
         this.nameText = nameText;
-    }
-
-    public String getSurnameText() {
-        return surnameText;
-    }
-
-    public void setSurnameText(String surnameText) {
-        this.surnameText = surnameText;
     }
 
     public String getAgeText() {
@@ -76,47 +62,11 @@ public class AddRelationalMemberPageController {
         isGenderFemale = genderFemale;
     }
 
-    public LocalDate getBirthDateText() {
-        return birthDateText;
-    }
-
-    public void setBirthDateText(LocalDate birthDateText) {
-        this.birthDateText = birthDateText;
-    }
-
-    public boolean isAliveYes() {
-        return isAliveYes;
-    }
-
-    public void setAliveYes(boolean aliveYes) {
-        isAliveYes = aliveYes;
-    }
-
-    public boolean isAliveNo() {
-        return isAliveNo;
-    }
-
-    public void setAliveNo(boolean aliveNo) {
-        isAliveNo = aliveNo;
-    }
-
-    public LocalDate getDeathDateText() {
-        return deathDateText;
-    }
-
-    public void setDeathDateText(LocalDate deathDateText) {
-        this.deathDateText = deathDateText;
-    }
-
-
     @FXML
     private ComboBox<String> relation;
 
     @FXML
     private TextField name;
-
-    @FXML
-    private TextField surname;
 
     @FXML
     private TextField age;
@@ -126,18 +76,6 @@ public class AddRelationalMemberPageController {
 
     @FXML
     private CheckBox genderFemale;
-
-    @FXML
-    private DatePicker birthDate;
-
-    @FXML
-    private CheckBox aliveYes;
-
-    @FXML
-    private CheckBox aliveNo;
-
-    @FXML
-    private DatePicker deathDate;
 
     @FXML
     private Button cancelButton;
@@ -160,7 +98,6 @@ public class AddRelationalMemberPageController {
     public void initialize() {
         System.out.println("second");
         setRelation();
-        deathDate.setDisable(true);
 
         genderMale.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -178,30 +115,6 @@ public class AddRelationalMemberPageController {
                 genderMale.setDisable(t1);
                 if(t1 == false) {
                     genderMale.setDisable(false);
-                }
-            }
-        });
-
-        aliveYes.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                aliveNo.setDisable(t1);
-                deathDate.setDisable(true);
-                if(t1 == false) {
-                    aliveNo.setDisable(false);
-
-                }
-            }
-        });
-
-        aliveNo.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                aliveYes.setDisable(t1);
-                deathDate.setDisable(false);
-                if(t1 == false) {
-                    aliveYes.setDisable(false);
-                    deathDate.setDisable(true);
                 }
             }
         });
@@ -228,7 +141,7 @@ public class AddRelationalMemberPageController {
         dialog.setTitle("Alert!");
         ButtonType button = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().add(button);
-        if (name.getText().equals("") && surname.getText().equals("")){
+        if (name.getText().equals("")){
             dialog.setContentText("Please enter your name and surname!");
             Optional<ButtonType> result = dialog.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -237,14 +150,10 @@ public class AddRelationalMemberPageController {
         }
 
         nameText = name.getText();
-        surnameText = surname.getText();
         ageText = age.getText();
         isGenderMale = genderMale.isSelected();
         isGenderFemale = genderFemale.isSelected();
-        birthDateText = birthDate.getValue();
-        isAliveYes = aliveYes.isSelected();
-        isAliveNo = aliveNo.isSelected();
-        deathDateText = deathDate.getValue();
+
 
 
         if (isGenderMale) {
@@ -254,7 +163,7 @@ public class AddRelationalMemberPageController {
         }
 
         if (person == null) {
-            person = new Person(nameText, surnameText, ageText, birthDateText, true ,gender );
+            person = new Person(nameText, ageText,gender );
             person.showInfo(person);
             System.out.println("person ifine girdik");
         } else {
@@ -268,7 +177,6 @@ public class AddRelationalMemberPageController {
 
         System.out.println("relation: " + relation.getValue());
 
-        System.out.println("Name:" + nameText + "-surname:" + surnameText + "-age:" + ageText + "-isGenderMale:" + isGenderMale + "-isGenderFemale:" + isGenderFemale + "-birthdate" + birthDateText);
     }
 
     private void formatSystem() {

@@ -11,10 +11,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.time.LocalDate;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Optional;
-import java.util.jar.JarOutputStream;
 
 public class AddMemberPageController {
 
@@ -24,14 +23,31 @@ public class AddMemberPageController {
     private Person person;
     private Gender gender;
     private String nameText;
-    private String surnameText;
     private String ageText;
     private boolean isGenderMale;
     private boolean isGenderFemale;
-    private LocalDate birthDateText;
-    private boolean isAliveYes;
-    private boolean isAliveNo;
-    private LocalDate deathDateText;
+    public ArrayList<Person> arrayList = new ArrayList<>();
+
+    @FXML
+    private TextField name;
+
+    @FXML
+    private TextField age;
+
+    @FXML
+    private CheckBox genderMale;
+
+    @FXML
+    private CheckBox genderFemale;
+
+    @FXML
+    private Button cancelButton;
+
+    @FXML
+    private Button addButton;
+
+    @FXML
+    private Accordion accordion;
 
     public AddMemberPageController() {
         System.out.println("first");
@@ -44,14 +60,6 @@ public class AddMemberPageController {
 
     public void setNameText(String nameText) {
         this.nameText = nameText;
-    }
-
-    public String getSurnameText() {
-        return surnameText;
-    }
-
-    public void setSurnameText(String surnameText) {
-        this.surnameText = surnameText;
     }
 
     public String getAgeText() {
@@ -78,76 +86,9 @@ public class AddMemberPageController {
         isGenderFemale = genderFemale;
     }
 
-    public LocalDate getBirthDateText() {
-        return birthDateText;
-    }
-
-    public void setBirthDateText(LocalDate birthDateText) {
-        this.birthDateText = birthDateText;
-    }
-
-    public boolean isAliveYes() {
-        return isAliveYes;
-    }
-
-    public void setAliveYes(boolean aliveYes) {
-        isAliveYes = aliveYes;
-    }
-
-    public boolean isAliveNo() {
-        return isAliveNo;
-    }
-
-    public void setAliveNo(boolean aliveNo) {
-        isAliveNo = aliveNo;
-    }
-
-    public LocalDate getDeathDateText() {
-        return deathDateText;
-    }
-
-    public void setDeathDateText(LocalDate deathDateText) {
-        this.deathDateText = deathDateText;
-    }
-
-    @FXML
-    private TextField name;
-
-    @FXML
-    private TextField surname;
-
-    @FXML
-    private TextField age;
-
-    @FXML
-    private CheckBox genderMale;
-
-    @FXML
-    private CheckBox genderFemale;
-
-    @FXML
-    private DatePicker birthDate;
-
-    @FXML
-    private CheckBox aliveYes;
-
-    @FXML
-    private CheckBox aliveNo;
-
-    @FXML
-    private DatePicker deathDate;
-
-    @FXML
-    private Button cancelButton;
-
-    @FXML
-    private Button addButton;
-
-
     @FXML
     public void initialize() {
         System.out.println("second");
-        deathDate.setDisable(true);
 
         genderMale.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -169,32 +110,6 @@ public class AddMemberPageController {
             }
         });
 
-        aliveYes.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                aliveNo.setDisable(t1);
-                deathDate.setDisable(true);
-                if(t1 == false) {
-                    aliveNo.setDisable(false);
-
-                }
-            }
-        });
-
-        aliveNo.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                aliveYes.setDisable(t1);
-                deathDate.setDisable(false);
-                if(t1 == false) {
-                    aliveYes.setDisable(false);
-                    deathDate.setDisable(true);
-                }
-            }
-        });
-
-
-
     }
 
     public void cancelMainPage(ActionEvent actionEvent) {
@@ -213,11 +128,13 @@ public class AddMemberPageController {
 
 
     public void addMember(ActionEvent actionEvent) throws IOException{
+
+        // try catch içine alıcaz.
         Dialog dialog = new Dialog();
         dialog.setTitle("Alert!");
         ButtonType button = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().add(button);
-        if (name.getText().equals("") && surname.getText().equals("")){
+        if (name.getText().equals("") ){
             dialog.setContentText("Please enter your name and surname!");
             Optional<ButtonType> result = dialog.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -225,15 +142,11 @@ public class AddMemberPageController {
             }
         }
 
+
         nameText = name.getText();
-        surnameText = surname.getText();
         ageText = age.getText();
         isGenderMale = genderMale.isSelected();
         isGenderFemale = genderFemale.isSelected();
-        birthDateText = birthDate.getValue();
-        isAliveYes = aliveYes.isSelected();
-        isAliveNo = aliveNo.isSelected();
-        deathDateText = deathDate.getValue();
 
 
         if (isGenderMale) {
@@ -243,9 +156,32 @@ public class AddMemberPageController {
         }
 
         if (person == null) {
-            //person = new Person(nameText, surnameText, ageText, birthDateText, true ,gender );
-            //person.showInfo(person);
-            System.out.println("person ifine girdik");
+            person = new Person(nameText, ageText,gender );
+            person.showInfo(person);
+            arrayList.add(person);
+            System.out.println("arraylist :" + arrayList);
+            try
+            {
+                FileOutputStream fos = new FileOutputStream("familyTree.txt");
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                oos.writeObject(arrayList);
+                oos.close();
+                fos.close();
+
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+            }
+
+
+            for (int i=0; i<arrayList.size() ;i++){
+                System.out.println("Add butonu tıklandığında arraylist: "+arrayList.get(i).getName());
+
+
+            }
+
+
         } else {
             System.out.println("something went wrong!");
         }
@@ -254,7 +190,7 @@ public class AddMemberPageController {
         root = loader.load();
 
         Controller controller = loader.getController();
-        controller.changeScreen(name.getText(),surnameText,ageText,isGenderMale,birthDateText,isAliveYes);
+        controller.changeScreen(nameText,ageText,gender);
 
         //root = FXMLLoader.load(getClass().getResource("mainpage.fxml"));
         stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -268,11 +204,9 @@ public class AddMemberPageController {
 
         System.out.println("gender male : " + genderMale.isSelected());
 
-
-        System.out.println("Name:" + nameText + "-surname:" + surnameText + "-age:" + ageText + "-isGenderMale:" + isGenderMale + "-isGenderFemale:" + isGenderFemale + "-birthdate" + birthDateText);
     }
 
     private void formatSystem() {
-        System.out.println("Please enter name and surname");
+        System.out.println("Please enter your full name.");
     }
 }
