@@ -85,9 +85,8 @@ public class AddMemberPageController {
         relation.getItems().add(0,"Mother");
         relation.getItems().add(1,"Father");
         relation.getItems().add(2,"Child");
-        relation.getItems().add(3,"Partner");
-        relation.getItems().add(4,"Sibling");
-        relation.getItems().add(5,"Me");
+        relation.getItems().add(3,"Sibling");
+        relation.getItems().add(4,"Me");
     }
 
     @FXML

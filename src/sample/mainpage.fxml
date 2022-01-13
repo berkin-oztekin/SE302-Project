@@ -88,9 +88,9 @@
                               <Insets />
                            </HBox.margin>
                         </VBox>
-                        <VBox prefHeight="620.0" prefWidth="140.0">
+                        <VBox prefHeight="301.0" prefWidth="267.0">
                            <children>
-                              <Label fx:id="nameLabel" prefHeight="27.0" prefWidth="142.0">
+                              <Label fx:id="nameLabel" prefHeight="27.0" prefWidth="211.0">
                                  <VBox.margin>
                                     <Insets top="40.0" />
                                  </VBox.margin>
@@ -98,7 +98,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="ageLabel" prefHeight="27.0" prefWidth="144.0">
+                              <Label fx:id="ageLabel" prefHeight="27.0" prefWidth="212.0">
                                  <VBox.margin>
                                     <Insets top="10.0" />
                                  </VBox.margin>
@@ -106,7 +106,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="genderLabel" prefHeight="27.0" prefWidth="149.0">
+                              <Label fx:id="genderLabel" prefHeight="27.0" prefWidth="232.0">
                                  <VBox.margin>
                                     <Insets top="10.0" />
                                  </VBox.margin>
@@ -143,16 +143,6 @@
                      </children>
                   </HBox>
                   <Button fx:id="addMemberButton1" layoutX="53.0" layoutY="486.0" mnemonicParsing="false" onAction="#addMember" prefHeight="60.0" prefWidth="200.0" text="Add new member">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="updateMemberButton" layoutX="53.0" layoutY="560.0" mnemonicParsing="false" onAction="#updateMember" prefHeight="60.0" prefWidth="200.0" text="Update Member" AnchorPane.leftAnchor="53.0">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="deleteMemberButton" layoutX="53.0" layoutY="631.0" mnemonicParsing="false" onAction="#deleteMember" prefHeight="60.0" prefWidth="200.0" text="Delete Member">
                      <font>
                         <Font size="16.0" />
                      </font>
