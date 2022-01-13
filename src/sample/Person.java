@@ -1,11 +1,18 @@
 package sample;
 
+import javafx.beans.property.StringProperty;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Person implements Serializable {
-    private String name;
-    private String age;
-    private Gender gender;
+    public String name;
+    public String age;
+    public Gender gender;
+    public Person mother;
+    public Person father;
+    public ArrayList<Person> siblings = new ArrayList<Person>();
+    public ArrayList<Person> child = new ArrayList<Person>();
 
 
     //relative type eklencek
@@ -14,40 +21,40 @@ public class Person implements Serializable {
 
     // relation type sıkıntı çöz
 
+    public Person() {
+
+    }
+
+    public Person(String name, String age, Gender gender, Person mother, Person father) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.mother = mother;
+        this.father = father;
+    }
+
+    public Person(String name, String age, Gender gender, Person mother, Person father, ArrayList<Person> siblings, ArrayList<Person> child) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.mother = mother;
+        this.father = father;
+        this.siblings = siblings;
+        this.child = child;
+    }
+
+    public Person(String name, String age, Gender gender, Person mother, Person father, ArrayList<Person> siblings) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.mother = mother;
+        this.father = father;
+        this.siblings = siblings;
+    }
+
     public Person(String name, String age, Gender gender) {
         this.name = name;
         this.age = age;
         this.gender = gender;
-    }
-
-
-    public String getAge() {
-        return age;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-
-
-    public void showInfo(Person person) {
-        person.getName();
     }
 }

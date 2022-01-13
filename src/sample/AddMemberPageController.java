@@ -26,7 +26,6 @@ public class AddMemberPageController {
     private String ageText;
     private boolean isGenderMale;
     private boolean isGenderFemale;
-    public ArrayList<Person> arrayList = new ArrayList<>();
 
     @FXML
     private TextField name;
@@ -47,12 +46,7 @@ public class AddMemberPageController {
     private Button addButton;
 
     @FXML
-    private Accordion accordion;
-
-    public AddMemberPageController() {
-        System.out.println("first");
-    }
-
+    private ComboBox<String> relation;
 
     public String getNameText() {
         return nameText;
@@ -86,9 +80,19 @@ public class AddMemberPageController {
         isGenderFemale = genderFemale;
     }
 
+    public void setRelation() {
+        relation.getItems().add(0,"Mother");
+        relation.getItems().add(1,"Father");
+        relation.getItems().add(2,"Child");
+        relation.getItems().add(3,"Sibling");
+        relation.getItems().add(4,"Me");
+    }
+
     @FXML
     public void initialize() {
         System.out.println("second");
+        setRelation();
+        update();
 
         genderMale.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -125,6 +129,37 @@ public class AddMemberPageController {
         }
     }
 
+    public void update() {
+        try
+        {
+            if(Controller.personArrayList.get(0).name!=""){
+                FileInputStream fis = new FileInputStream("familyTree.txt");
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                Controller.personArrayList = (ArrayList<Person>) ois.readObject();
+                fis.close();
+                ois.close();
+            }
+
+        }
+        catch (IOException ioe)
+        {
+            System.out.println("update");
+            ioe.printStackTrace();
+            return;
+        }
+        catch (ClassNotFoundException c)
+        {
+            System.out.println("Class not found");
+            c.printStackTrace();
+            return;
+        }
+
+        //Verify list data
+        for (Person person : Controller.personArrayList) {
+            System.out.println("Update içi Person" + person.name);
+        }
+    }
+
 
 
     public void addMember(ActionEvent actionEvent) throws IOException{
@@ -148,42 +183,53 @@ public class AddMemberPageController {
         isGenderMale = genderMale.isSelected();
         isGenderFemale = genderFemale.isSelected();
 
-
         if (isGenderMale) {
             gender = Gender.Male;
         } else {
             gender = Gender.Female;
         }
 
-        if (person == null) {
-            person = new Person(nameText, ageText,gender );
-            person.showInfo(person);
-            arrayList.add(person);
-            System.out.println("arraylist :" + arrayList);
+            person = new Person(nameText, ageText,gender,new Person("test","22",Gender.Female),new Person("test","test",Gender.Male));
+        if(relation.getValue().equals("Sibling")){
+            Controller.personArrayList.get(1).siblings.add(person);
+        }
+        if (relation.getValue().equals("Mother")){
+            Controller.personArrayList.get(1).mother = person;
+        }
+        if (relation.getValue().equals("Father")){
+            Controller.personArrayList.get(1).father = person;
+        }
+        if (relation.getValue().equals("Me")){
+            if (Controller.personArrayList.size()==2)
+            Controller.personArrayList.set(1,person);
+        }
+        if (relation.getValue().equals("Child")){
+            Controller.personArrayList.get(1).child.add(person);
+        }
+            Controller.personArrayList.add(person);
+            System.out.println("arraylist :" + Controller.personArrayList);
             try
             {
+
                 FileOutputStream fos = new FileOutputStream("familyTree.txt");
                 ObjectOutputStream oos = new ObjectOutputStream(fos);
-                oos.writeObject(arrayList);
+                oos.writeObject((ArrayList<Person>) Controller.personArrayList);
                 oos.close();
                 fos.close();
             }
             catch (IOException ioe)
             {
+                System.out.println("output");
                 ioe.printStackTrace();
             }
 
 
-            for (int i=0; i<arrayList.size() ;i++){
-                System.out.println("Add butonu tıklandığında arraylist: "+arrayList.get(i).getName());
+            for (int i=0; i<Controller.personArrayList.size() ;i++){
+                System.out.println("Add butonu tıklandığında arraylist: "+Controller.personArrayList.get(i).name);
 
 
             }
 
-
-        } else {
-            System.out.println("something went wrong!");
-        }
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("mainpage.fxml"));
         root = loader.load();

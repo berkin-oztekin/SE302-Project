@@ -29,10 +29,40 @@ public class HomePageController {
         }
     }
 
-    public void addMember(ActionEvent actionEvent) {
-    }
-
     public void exitProgram(ActionEvent actionEvent) {
         System.exit(0);
+    }
+
+    public void getAboutUs(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("aboutUsPage.fxml"));
+        Parent root = loader.load();
+
+        //root = FXMLLoader.load(getClass().getResource("mainpage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void howToUse(ActionEvent event) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("helpPage.fxml"));
+        Parent root = loader.load();
+
+        //root = FXMLLoader.load(getClass().getResource("mainpage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void backPage(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("HomePage.fxml"));
+        Parent root = loader.load();
+
+        //root = FXMLLoader.load(getClass().getResource("mainpage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }
