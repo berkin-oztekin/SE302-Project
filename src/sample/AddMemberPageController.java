@@ -15,7 +15,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
-
 public class AddMemberPageController {
 
     private Stage stage;

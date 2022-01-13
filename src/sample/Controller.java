@@ -195,6 +195,12 @@ public class Controller {
                     }
 
 
+        TreeItem<String> leafItem1 = new TreeItem<>("l1");
+        TreeItem<String> leafItem2 = new TreeItem<>("l2");
+        TreeItem<String> leafItem3 = new TreeItem<>("l3");
+        TreeItem<String> leafItem4 = new TreeItem<>("l4");
+        TreeItem<String> leafItem5 = new TreeItem<>("l5");
+        TreeItem<String> leafItem6 = new TreeItem<>("l6");
 
             for (Person child : personArrayList.get(1).child) {
                 leafItem.getChildren().addAll(new TreeItem<String>(child.name));
@@ -270,4 +276,9 @@ public class Controller {
         stage.setScene(scene);
         stage.show();
     }
+
+    public void addRelation(ActionEvent actionEvent) {
+    }
+
+
 }
