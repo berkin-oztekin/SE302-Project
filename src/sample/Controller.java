@@ -45,31 +45,11 @@ public class Controller {
     private Label nameLabel;
 
     @FXML
-    private Label surnameLabel;
-
-    @FXML
     private Label ageLabel;
 
     @FXML
     private Label genderLabel;
 
-    @FXML
-    private Button updateMemberButton;
-
-    @FXML
-    private Button deleteMemberButton;
-
-    @FXML
-    private Button addMemberButton1;
-
-    @FXML
-    private Label personLabel;
-
-    @FXML
-    private Button addRelativeButton;
-
-    @FXML
-    private ScrollPane scrollPane;
     @FXML
     private TreeView treeview;
 
@@ -258,21 +238,36 @@ public class Controller {
          */
     }
 
+    public void backPage(ActionEvent event) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("HomePage.fxml"));
+        Parent root = loader.load();
 
-
-    public void updateMember(ActionEvent actionEvent) {
-
+        //root = FXMLLoader.load(getClass().getResource("mainpage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
-    public void deleteMember(ActionEvent actionEvent) {
+    public void aboutPage(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("aboutUsPage.fxml"));
+        Parent root = loader.load();
 
+        //root = FXMLLoader.load(getClass().getResource("mainpage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
-    public void addRelative(ActionEvent actionEvent) {
+    public void helpPage(ActionEvent event) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("helpPage.fxml"));
+        Parent root = loader.load();
+
+        //root = FXMLLoader.load(getClass().getResource("mainpage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
-
-    public void addRelation(ActionEvent actionEvent) {
-    }
-
-
 }

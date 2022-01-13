@@ -7,7 +7,6 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
@@ -17,18 +16,9 @@
    <children>
       <MenuBar prefHeight="29.0" prefWidth="1280.0" VBox.vgrow="NEVER">
          <menus>
-            <Menu mnemonicParsing="false" text="File">
+            <Menu mnemonicParsing="false" text="Quit">
                <items>
-                  <MenuItem mnemonicParsing="false" text="New" />
-                  <MenuItem mnemonicParsing="false" text="Open…" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#exitProgram" text="Quit" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="About FamilyTree" />
-                  <MenuItem mnemonicParsing="false" text="Help" />
                </items>
             </Menu>
          </menus>
@@ -42,12 +32,17 @@
                         <Font size="36.0" />
                      </font>
                   </Label>
-                  <Button fx:id="importTree" layoutX="58.0" layoutY="300.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Import Family Tree" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="59.0" AnchorPane.topAnchor="300.0">
+                  <Button fx:id="createTree" layoutX="58.0" layoutY="197.0" mnemonicParsing="false" onAction="#createNewTree" prefHeight="60.0" prefWidth="200.0" text="Create new Family Tree" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="59.0" AnchorPane.topAnchor="197.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Button fx:id="createTree" layoutX="58.0" layoutY="197.0" mnemonicParsing="false" onAction="#createNewTree" prefHeight="60.0" prefWidth="200.0" text="Create new Family Tree" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="59.0" AnchorPane.topAnchor="197.0">
+                  <Button fx:id="howButton" layoutX="58.0" layoutY="399.0" mnemonicParsing="false" onAction="#howToUse" prefHeight="60.0" prefWidth="200.0" text="How to Use Family Tree">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="aboutUs" layoutX="59.0" layoutY="493.0" mnemonicParsing="false" onAction="#getAboutUs" prefHeight="60.0" prefWidth="200.0" text="ABOUT US">
                      <font>
                         <Font size="16.0" />
                      </font>
