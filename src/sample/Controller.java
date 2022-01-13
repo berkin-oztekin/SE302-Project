@@ -18,13 +18,16 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.URL;
+import java.security.spec.RSAOtherPrimeInfo;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
 
 
 public class Controller {
@@ -70,7 +73,7 @@ public class Controller {
     @FXML
     private TreeView treeview;
 
-    public ArrayList<Person> personArrayList = new ArrayList<>();
+    public static ArrayList<Person> personArrayList = new ArrayList<>();
 
     AddMemberPageController addMemberPageController = new AddMemberPageController();
 
@@ -83,12 +86,35 @@ public class Controller {
 
      */
 
+
     @FXML
     public void selectitem() {
-        TreeItem<String> item = (TreeItem<String>) treeview.getSelectionModel().getSelectedItem();
 
-        System.out.println(item);
-    }
+
+
+            TreeItem<String> item = (TreeItem<String>) treeview.getSelectionModel().getSelectedItem();
+            if (item!=null){
+                if (!item.getValue().equals(personArrayList.get(1).name) && !item.getValue().equals(personArrayList.get(1).mother.name + " " + personArrayList.get(1).father.name)){
+                    int cnt=0;
+                    for (Person sibling : personArrayList.get(1).siblings) {
+                        if (sibling.name.equals(item.getValue())){
+                            break;
+                        }
+                        cnt++;
+                    }
+                    changeScreen(personArrayList.get(1).siblings.get(cnt).name,personArrayList.get(1).siblings.get(cnt).age,personArrayList.get(1).siblings.get(cnt).gender);
+                    System.out.println(item);
+                } else {
+                    changeScreen(personArrayList.get(1).name,personArrayList.get(1).age,personArrayList.get(1).gender);
+                }
+            } else {
+                changeScreen(personArrayList.get(1).name,personArrayList.get(1).age,personArrayList.get(1).gender);
+            }
+
+
+        }
+
+
 
     public void addMember(ActionEvent actionEvent) {
         try{
@@ -112,38 +138,46 @@ public class Controller {
         return fullname;
     }
 
-    public void update() throws IOException {
+    public static void update() {
         try
         {
-            FileInputStream fis = new FileInputStream("familyTree.txt");
-            ObjectInputStream ois = new ObjectInputStream(fis);
+            File file = new File("familyTree.txt");
+            boolean fileCheck = file.length()!=0;
+            System.out.println(fileCheck);
 
-            personArrayList = (ArrayList) ois.readObject();
+            if (fileCheck){
+                FileInputStream fis = new FileInputStream("familyTree.txt");
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                System.out.println("Update arraylist first:" + personArrayList.size());
+                System.out.println("File"+file.length());
+                personArrayList = (ArrayList<Person>) ois.readObject();
 
-            ois.close();
-            fis.close();
+                System.out.println("Update arraylist:" + personArrayList.size());
+                ois.close();
+                fis.close();
+            }
+
+
         }
-        catch (IOException ioe)
+        catch (Exception e)
         {
-            ioe.printStackTrace();
+            e.printStackTrace();
             return;
         }
-        catch (ClassNotFoundException c)
-        {
-            System.out.println("Class not found");
-            c.printStackTrace();
-            return;
-        }
+
 
         //Verify list data
         for (Person person : personArrayList) {
-            System.out.println("Update içi Person" + person.getName());
+            System.out.println("Update içi Person" + person.name);
         }
     }
 
     @FXML
-    public void initialize() throws IOException{
+    public void initialize() {
+
         update();
+        TreeItem<String> branchItem1;
+
         /*
         nameLabel.setText("initialized.");
         Timeline timeline = new Timeline(
@@ -158,34 +192,43 @@ public class Controller {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
 
-
-
-
-
-
-
-
 */
-        TreeItem<String> rootItem = new TreeItem<>(personArrayList.get(0).getName());
+        if (personArrayList.isEmpty()) {
 
-        TreeItem<String> branchItem1 = new TreeItem<>("b1");
-        TreeItem<String> branchItem2 = new TreeItem<>("b2");
-        TreeItem<String> branchItem3 = new TreeItem<>("b3");
+            personArrayList.add(new Person("","",Gender.Male,new Person("test","22",Gender.Female),new Person("test","test",Gender.Male)));
+        }
 
-        TreeItem<String> leafItem1 = new TreeItem<>("l1");
-        TreeItem<String> leafItem2 = new TreeItem<>("l2");
-        TreeItem<String> leafItem3 = new TreeItem<>("l3");
-        TreeItem<String> leafItem4 = new TreeItem<>("l4");
-        TreeItem<String> leafItem5 = new TreeItem<>("l5");
-        TreeItem<String> leafItem6 = new TreeItem<>("l6");
+        System.out.println("arraylist size :" +personArrayList.size());
+        TreeItem<String> rootItem;
+        if (personArrayList.size() == 1){
+            rootItem = new TreeItem<>(personArrayList.get(0).name);
 
-        branchItem1.getChildren().addAll(leafItem1,leafItem2);
-        branchItem2.getChildren().addAll(leafItem3,leafItem4);
-        branchItem3.getChildren().addAll(leafItem5,leafItem6);
 
-        rootItem.getChildren().addAll(branchItem1,branchItem2,branchItem3);
+        } else {
+            rootItem = new TreeItem<>(personArrayList.get(1).name);
+            branchItem1 = new TreeItem<>(personArrayList.get(1).mother.name +" "+ personArrayList.get(1).father.name);
+            TreeItem<String> leafItem = new TreeItem<>(personArrayList.get(1).name);
+
+
+                    for (Person siblings:personArrayList.get(1).siblings) {
+                        branchItem1.getChildren().addAll(new TreeItem<String>(siblings.name));
+                    }
+
+
+
+            for (Person child : personArrayList.get(1).child) {
+                leafItem.getChildren().addAll(new TreeItem<String>(child.name));
+            }
+            branchItem1.getChildren().addAll(leafItem);
+            rootItem.getChildren().addAll(branchItem1);
+        }
 
         treeview.setRoot(rootItem);
+
+
+
+
+
 
 
         //Controller controller = new Controller(personArrayList,addMemberPageController);
